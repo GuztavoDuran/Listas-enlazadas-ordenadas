@@ -1,49 +1,68 @@
 #include <iostream>
 #include <conio.h>
+#include <string.h>
 using namespace std;
+//se crea el nuevo nodo
 struct Nodo{
-    int dato;//dato de tipo int
-    struct Nodo *siguiente;//puntero a la misma estructura
-}*inicio, *aux, *actual;//se crean tres apuntadores hacia la estructura
+  int valor;
+  Nodo *siguiente;
+};
+//prototipo de funcion
+void insertarLista(Nodo *&, int);
+void mostrarlista(Nodo *);
+Nodo *Lista = NULL; // se crea un puntero y se iguala a NULL
+int main(int argc, char const *argv[]) {
+  cout << "INSERTANDO ELEMENTOS DE LA LISTA:" << endl;
+  cout << "\n";
+  insertarLista(Lista, 10);
+  insertarLista(Lista, 20);
+  insertarLista(Lista, 5);
+  cout << "\n\n";
+  cout << "MOSTRABDO ELEMENTOS DE LA LISTA" << endl;
+  cout << "\n";
+  mostrarlista(Lista);
+  getch();
+  return 0;
+}//fin de main
+
+void insertarLista(Nodo *&Lista, int n){
+  Nodo *inicio = new Nodo();//crear el nuevo nodo
+  inicio->valor = n;//se asigna el valor a dato
+  //se crean los dos auxiliares
+  Nodo *aux1 = Lista;
+  Nodo *aux2;
+  //while para que se inserten los elementos de forma ordenada
+  while((aux1 != NULL) && (aux1 -> valor < n)){
+    aux2 = aux1;
+    aux1 = aux1 -> siguiente;
+  }//fin de while
 /*
-*inicio: tener el puntero a la cabeza de la lista
-*aux: ayudara a crear nodos
-*actual:
+  si el siguiente condicional se cumple, significa que no ha entrado
+  a el while, por lo tanto el elemento va al principio
 */
-void insertarNodo(int);//prototipos de funciones
-void mostrarNodo();//prototipos de funciones
-int main(int argc, char** argv){
-    inicio = NULL;
-    //se inserta una primera vez
-    insertarNodo(10);
-    //se vuelve a llamar, pero como estaa NULL
-    insertarNodo(20);
-    insertarNodo(30);
-    mostrarNodo();
-    cin.get();
-	return 0;
-}
-void insertarNodo(int valor){
-    actual = inicio;
-    if(actual == NULL){
-        aux = new Nodo ();//se crea el nodo
-        aux -> dato = valor;//asigna valor
-        aux -> siguiente = NULL;//se asigna a NULL, porque no hay otro dato enfrente
-        inicio = aux;
-    }else{
-        while(actual->siguiente != NULL){
-            actual = actual -> siguiente;
-        }
-        aux = new Nodo ();//se crea el nodo
-        aux -> dato = valor;//asigna valor
-        aux -> siguiente = NULL;//se asigna a NULL, porque no hay otro dato enfrente
-        actual->siguiente = aux;
-    }
-}
-void mostrarNodo(){
-    actual = inicio;
-    while(actual != NULL){
-        cout << " -> " << actual -> dato << " ";
-        actual = actual -> siguiente;
-    }
+  if(Lista == aux1){
+    Lista = inicio;
+  }
+/*
+  si entra el else, significa que ha entrado al while
+  por lo tanto se ha recorrido una posicion
+*/
+  else{
+    aux2 -> siguiente = inicio;
+  }
+  inicio -> siguiente = aux1;
+  cout << "elemento " << n << " insertado a lista correctamente" << endl;
+}//fin de la funcion insertarLista
+
+void mostrarlista(Nodo *Lista){
+  //se crea un nuevo nodo
+  Nodo *actual = new Nodo ();
+  //se le asigna al nodo Lista
+  actual = Lista;
+  while (actual != NULL) {
+    //imprime el valor del primer nodo
+    cout << " -> " <<actual -> valor ;
+    //avanza hasta que actual sea igual a NULL
+    actual = actual -> siguiente;
+  }
 }
